@@ -1,3 +1,27 @@
+/*
+ * DashboardView is a Flutter widget that represents the main dashboard screen of the HealthHub app.
+ * It displays various health-related information such as BMI, water intake, exercise, calorie count, sleep tracking,
+ * and global rank for a user.
+ *
+ * It takes the following parameters:
+ * - userId: A unique identifier for the user.
+ * - bmiResult: The user's BMI (Body Mass Index) result.
+ * - bmiCategory: The category of the user's BMI (e.g., Underweight, Normal, Overweight).
+ *
+ * The widget is a StatefulWidget because it needs to fetch and display dynamic data from the backend.
+ *
+ * The following features are implemented in this widget:
+ * - Displaying user's name, date, and BMI information.
+ * - Showing water intake status.
+ * - Displaying exercise duration and goal.
+ * - Showing calorie count and goal.
+ * - Displaying sleep tracking information.
+ * - Displaying the user's global rank.
+ * - Providing navigation to detailed pages for each feature.
+ *
+ * The widget also provides methods to fetch and refresh user data.
+ */
+
 import 'package:flutter/material.dart';
 import 'package:healthhub/controller/auth_controller.dart';
 import 'package:healthhub/controller/userdata_controller.dart';
@@ -73,6 +97,7 @@ class _DashboardViewState extends State<DashboardView> {
     );
   }
 
+  // Widget to display BMI information.
   Widget buildBMIResultCard() {
     double? bmi = userDataBMI['uBMIResult'];
     String? bmiCategory = userDataBMI['uBMICategory'];
@@ -102,6 +127,7 @@ class _DashboardViewState extends State<DashboardView> {
     );
   }
 
+  // Widget to display calorie count information.
   Widget buildCalorieCountCard() {
     int calorieCountGoal = userDataBMI['uCalorieRecomendation'] ?? 2000;
     int? calorieCount = dailySuccessPoint['uCalorieCount'];
@@ -136,6 +162,7 @@ class _DashboardViewState extends State<DashboardView> {
     ));
   }
 
+  // Widget to display exercise information.
   Widget buildExerciseCard() {
     int uExerciseRecomendation = userDataBMI['uExerciseRecomendation'] ?? 1800;
     int exerciseDurationGoal = uExerciseRecomendation;
@@ -173,6 +200,7 @@ class _DashboardViewState extends State<DashboardView> {
     ));
   }
 
+  // Widget to display global rank information.
   Widget buildGlobalRankCard() {
     return Card(
       child: InkWell(
@@ -192,6 +220,7 @@ class _DashboardViewState extends State<DashboardView> {
     );
   }
 
+  // Widget to display sleep tracking information.
   Widget buildSleepTrackingCard() {
     int sleepDurationGoal = 360;
     int? sleepDuration = dailySuccessPoint['uSleepDuration'];
@@ -224,6 +253,7 @@ class _DashboardViewState extends State<DashboardView> {
     ));
   }
 
+  // Widget to display water intake information.
   Widget buildWaterIntakeCard() {
     int uWaterRecomendation = userDataBMI['uWaterRecomendation'] ?? 2000;
     int waterIntakeGoal = uWaterRecomendation;
@@ -262,6 +292,7 @@ class _DashboardViewState extends State<DashboardView> {
     );
   }
 
+  // Method to fetch user data.
   Future<void> fetchData() async {
     username = await AuthController().getUserName(widget.userId);
 
@@ -281,6 +312,7 @@ class _DashboardViewState extends State<DashboardView> {
     fetchData();
   }
 
+  // Method to log out the user.
   void logout(BuildContext context) {
     Navigator.pushReplacement(
       context,
@@ -288,6 +320,7 @@ class _DashboardViewState extends State<DashboardView> {
     );
   }
 
+  // Method to refresh user data.
   Future<void> refreshData() async {
     await fetchData();
   }

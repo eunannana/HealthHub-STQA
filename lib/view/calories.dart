@@ -1,4 +1,13 @@
-// ignore_for_file: library_private_types_in_public_api
+/// Widget Flutter `Calories` ini digunakan untuk menampilkan dan mengelola data
+/// kalori harian pengguna. Widget ini memungkinkan pengguna untuk menambah, menghapus,
+/// dan menghitung total kalori yang dikonsumsi dalam sehari.
+///
+/// Widget ini juga menyediakan tombol "Simpan" untuk menyimpan total kalori yang dihitung
+/// ke dalam database, sehingga pengguna dapat melacak konsumsi kalori harian mereka.
+///
+/// Untuk menggunakan widget ini, cukup masukkan widget ini ke dalam pohon widget Flutter
+/// aplikasi Anda. Widget ini membutuhkan tiga parameter wajib: `userId` (ID pengguna),
+/// `date` (tanggal untuk data kalori), dan `refreshData` (fungsi untuk mereset data).
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +25,7 @@ class Calories extends StatefulWidget {
       required this.refreshData,
       required this.date})
       : super(key: key);
+
   @override
   _CaloriesState createState() => _CaloriesState();
 }
@@ -31,11 +41,12 @@ class _CaloriesState extends State<Calories> {
   Map<String, dynamic> caloriesDataMap = {};
 
   double totalCalories = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calories View'),
+        title: const Text('Tampilan Kalori'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,13 +57,13 @@ class _CaloriesState extends State<Calories> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Total Calories: ${calculateTotalCalories().toStringAsFixed(1)}',
+                  'Total Kalori: ${calculateTotalCalories().toStringAsFixed(1)}',
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 ElevatedButton(
                   onPressed: () => _saveTotalCalories(context),
-                  child: const Text('Save'),
+                  child: const Text('Simpan'),
                 ),
               ],
             ),
@@ -90,7 +101,7 @@ class _CaloriesState extends State<Calories> {
                   child: Card(
                     child: ListTile(
                       title: Text(food),
-                      subtitle: Text('$calories cal'),
+                      subtitle: Text('$calories kal'),
                       trailing: const Icon(
                         Icons.swipe_left_alt,
                         color: Color.fromARGB(70, 211, 67, 57),
@@ -114,7 +125,7 @@ class _CaloriesState extends State<Calories> {
     double total = 0;
     for (String data in caloriesData) {
       List<String> splittedData = data.split(' - ');
-      String calories = splittedData[1].replaceAll(' cal', '');
+      String calories = splittedData[1].replaceAll(' kal', '');
       total += double.parse(calories);
     }
     return total;
@@ -192,7 +203,7 @@ class _CaloriesState extends State<Calories> {
     Navigator.pop(context, true);
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Total calories saved')),
+      const SnackBar(content: Text('Total kalori disimpan')),
     );
   }
 }

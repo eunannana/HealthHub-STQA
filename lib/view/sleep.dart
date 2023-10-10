@@ -1,5 +1,20 @@
 // ignore_for_file: library_private_types_in_public_api, avoid_print, use_build_context_synchronously
 
+/// Widget `Sleep` digunakan untuk melacak dan mengelola durasi tidur pengguna.
+///
+/// Widget ini memungkinkan pengguna untuk memulai dan mengakhiri sesi tidur mereka
+/// serta menyimpan data tidur ke dalam poin kesuksesan harian pengguna.
+///
+/// Properti yang dibutuhkan:
+/// - [userId]: ID pengguna yang digunakan untuk mengidentifikasi pengguna.
+/// - [date]: Tanggal yang menentukan kapan tidur dilacak.
+/// - [refreshData]: Fungsi yang digunakan untuk menyegarkan data setelah menyimpan durasi tidur.
+///
+/// Widget ini menampilkan status tidur pengguna (tidur/bangun), total durasi tidur yang
+/// telah terjadi, dan tombol untuk memulai atau mengakhiri sesi tidur serta tombol untuk
+/// menyimpan data tidur.
+/// 
+/// 
 import 'package:flutter/material.dart';
 import 'package:healthhub/controller/userdata_controller.dart';
 
@@ -89,7 +104,7 @@ class _SleepState extends State<Sleep> {
       ),
     );
   }
-
+ /// Mengambil data pengguna termasuk durasi tidur dan memperbarui status.
   Future<void> fetchData() async {
     userData =
         await UserDataController().getDailySuccessPoint(widget.userId, date);
@@ -117,6 +132,7 @@ class _SleepState extends State<Sleep> {
     fetchData();
   }
 
+/// Mengakhiri sesi tidur pengguna dan menghitung total durasi tidur.
   void _endSleep() {
     setState(() {
       _isSleeping = false;
@@ -129,6 +145,7 @@ class _SleepState extends State<Sleep> {
     });
   }
 
+  /// Mengonversi duration menjadi format string yang dapat dibaca (misalnya, "2 jam 30 menit").
   String _formatTime(Duration duration) {
     int minutes = duration.inMinutes.remainder(60);
     int seconds = duration.inSeconds.remainder(60);
@@ -145,6 +162,7 @@ class _SleepState extends State<Sleep> {
     }
   }
 
+  /// Menyimpan data durasi tidur ke dalam poin kesuksesan harian pengguna.
   void _saveSleepData() async {
     if (_isSleeping || _totalSleepDuration == null) {
       return;
@@ -169,6 +187,7 @@ class _SleepState extends State<Sleep> {
     );
   }
 
+  /// Memulai sesi tidur pengguna.
   void _startSleep() {
     setState(() {
       _isSleeping = true;

@@ -2,11 +2,15 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+/// A class responsible for managing user data using Firestore.
 class UserDataController {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
 
+  /// Retrieves a list of user names along with their total success points.
+  ///
+  /// Returns a list of maps containing 'userName' and 'successPoint'.
   Future<List<Map<String, dynamic>>> getAllUserNamesWithPoints() async {
     try {
       final QuerySnapshot snapshot = await usersCollection.get();
@@ -46,6 +50,9 @@ class UserDataController {
     }
   }
 
+  /// Retrieves daily calories data for a specific user and date.
+  ///
+  /// Returns a map containing daily calories data, or an empty map if data is not found.
   Future<Map<String, dynamic>> getDailyCaloriesData(
       String userId, String date) async {
     try {
@@ -70,6 +77,9 @@ class UserDataController {
     return {};
   }
 
+  /// Retrieves daily success point data for a specific user and date.
+  ///
+  /// Returns a map containing daily success point data, or an empty map if data is not found.
   Future<Map<String, dynamic>> getDailySuccessPoint(
       String userId, String date) async {
     try {
@@ -91,6 +101,9 @@ class UserDataController {
     return {};
   }
 
+  /// Retrieves BMI data for a specific user.
+  ///
+  /// Returns a map containing BMI data, or an empty map if data is not found.
   Future<Map<String, dynamic>> getDataBMI(String userId) async {
     try {
       final DocumentReference userRef =
@@ -111,6 +124,9 @@ class UserDataController {
     return {};
   }
 
+  /// Retrieves the global rank of a specific user based on their success points.
+  ///
+  /// Returns the user's global rank as an integer.
   Future<int> getGlobalRank(String userId) async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('users')
@@ -132,6 +148,18 @@ class UserDataController {
     return userRank;
   }
 
+  /// Updates the BMI data for a specific user.
+  ///
+  /// Parameters:
+  /// - userId: The ID of the user.
+  /// - weight: The user's weight.
+  /// - height: The user's height.
+  /// - bmiResult: The calculated BMI result.
+  /// - bmiCategory: The BMI category.
+  /// - waterRecomendation: Recommended water intake.
+  /// - sleepRecomendation: Recommended sleep duration.
+  /// - exerciseRecomendation: Recommended exercise duration.
+  /// - calorieRecomendation: Recommended daily calorie intake.
   Future<void> updateBMI(
     String userId,
     int weight,
@@ -180,6 +208,15 @@ class UserDataController {
     }
   }
 
+  /// Updates the daily success point data for a specific user and date.
+  ///
+  /// Parameters:
+  /// - userId: The ID of the user.
+  /// - date: The date for which the data should be updated.
+  /// - hydrationLevel: The user's hydration level.
+  /// - exerciseDuration: The duration of exercise.
+  /// - calorieCount: The calorie count.
+  /// - sleepDuration: The duration of sleep.
   Future<void> updateDailySuccessPoint(
       String userId,
       String date,

@@ -3,15 +3,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthhub/model/user_model.dart';
-
+/// This class handles authentication and user-related operations using Firebase Authentication and Firestore.
 class AuthController {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
 
-  Future<UserModel?> createUserWithEmailAndPassword(String email,
-      String password, String name, String dob, String gender) async {
+  /// Creates a new user account with the provided email and password.
+  /// Also, stores additional user data in Firestore.
+  ///
+  /// Returns a [UserModel] if successful, otherwise returns null.
+  Future<UserModel?> createUserWithEmailAndPassword(
+      String email, String password, String name, String dob, String gender) async {
     try {
+      // Check if the email is already registered.
       final QuerySnapshot snapshot = await usersCollection
           .where('uEmail', isEqualTo: email)
           .limit(1)
@@ -21,6 +26,7 @@ class AuthController {
         throw Exception('Email is already registered');
       }
 
+      // Create a new user using Firebase Authentication.
       final UserCredential userCredential =
           await auth.createUserWithEmailAndPassword(
         email: email,
@@ -28,7 +34,7 @@ class AuthController {
       );
       final User? user = userCredential.user;
 
-      // Update user profile with display name
+      // Update user profile with display name and other data.
       if (user != null) {
         final UserModel newUser = UserModel(
             uName: name,
@@ -41,6 +47,7 @@ class AuthController {
         final String formattedDate =
             '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
 
+        // Initialize user's initial success point data.
         final Map<String, dynamic> initialSuccessPoint = {
           'uHydrationLevel': 0,
           'uHydrationPoint': 0,
@@ -53,6 +60,7 @@ class AuthController {
           'uSuccessPoint': 0,
         };
 
+        // Store user data in Firestore.
         await usersCollection.doc(newUser.uId).set(newUser.toMap());
         await usersCollection
             .doc(newUser.uId)
@@ -68,6 +76,9 @@ class AuthController {
     return null;
   }
 
+  /// Retrieves the username for a given user ID from Firestore.
+  ///
+  /// Returns the username as a String if found, otherwise returns null.
   Future<String?> getUserName(String uId) async {
     try {
       DocumentSnapshot userSnapshot = await usersCollection.doc(uId).get();
@@ -83,6 +94,9 @@ class AuthController {
     }
   }
 
+  /// Signs in a user with the provided email and password.
+  ///
+  /// Returns a [UserModel] if successful, otherwise returns null.
   Future<UserModel?> signInWithEmailAndPassword(
       String email, String password) async {
     try {
@@ -110,7 +124,7 @@ class AuthController {
                   .get();
 
           if (!dailySuccessPointSnapshot.exists) {
-            // Inisialisasi daily success point dengan data kosong
+            // Initialize daily success point with empty data.
             final Map<String, dynamic> initialSuccessPoint = {
               'uHydrationLevel': 0,
               'uHydrationPoint': 0,

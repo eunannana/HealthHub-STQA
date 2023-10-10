@@ -1,5 +1,16 @@
-import 'dart:async';
+/*
+ * SplashScreen is a Flutter widget that represents the initial splash screen of the HealthHub app.
+ * It is displayed when the app is launched and provides a brief introduction to the app before navigating to the login page.
+ *
+ * The widget includes the following elements:
+ * - A background color.
+ * - An app logo.
+ * - A welcome message.
+ *
+ * The splash screen automatically transitions to the login page after a specified duration.
+ */
 
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:healthhub/view/login.dart';
 
@@ -21,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/healthhub.png', // Ganti dengan path logo yang sesuai
+              'assets/healthhub.png', 
               width: 200,
               height: 200,
             ),
@@ -44,6 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    // Timer to navigate to the login page after 5 seconds.
     Timer(const Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,

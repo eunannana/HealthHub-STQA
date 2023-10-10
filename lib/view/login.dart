@@ -32,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               const Center(
                 child: Text(
+                  //welcome
                   'Welcome Back to HealthHub!',
                   style: TextStyle(
                     fontSize: 24,
@@ -66,6 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
+              //login
               const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () => login(),
@@ -119,6 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                   bmiResult: '',
                 )),
       );
+      //apabila invalid email atau password
     } else {
       setState(() {
         _errorMessage = 'Invalid email or password';

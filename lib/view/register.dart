@@ -7,6 +7,7 @@ class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
 
   @override
+  //memanpilan register
   State<RegisterView> createState() => _RegisterViewState();
 }
 
@@ -14,13 +15,21 @@ class _RegisterViewState extends State<RegisterView> {
   final formkey = GlobalKey<FormState>();
   final userCr = AuthController();
   final List<String> genderOptions = ['Male', 'Female'];
+  //memanpilan nama
   String? name;
+  //memanpilan email
   String? email;
+  //memanpilan password
   String? password;
+  //memanpilan repassword
   String? rePassword;
+  //memanpilan gender
   String? gender;
+
   String? dob;
+  //memanpilan tombol hide password
   bool hidePassword = true;
+  //memanpilan tombol hide re password
   bool hideRePassword = true;
 
   @override
@@ -36,12 +45,14 @@ class _RegisterViewState extends State<RegisterView> {
               child: Column(
                 children: [
                   const Text(
+                    //welcome
                     'Welcome to HealthHub!',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  //memasukan data pertama
                   const SizedBox(height: 10),
                   const Text(
                     'Fill your data first!',
@@ -49,6 +60,7 @@ class _RegisterViewState extends State<RegisterView> {
                       fontSize: 16,
                     ),
                   ),
+                  //memasukan nama
                   const SizedBox(height: 20),
                   TextFormField(
                     decoration: const InputDecoration(
@@ -67,6 +79,7 @@ class _RegisterViewState extends State<RegisterView> {
                       return null;
                     },
                   ),
+                  //memasukan email
                   const SizedBox(height: 16.0),
                   TextFormField(
                     decoration: const InputDecoration(
@@ -90,6 +103,7 @@ class _RegisterViewState extends State<RegisterView> {
                       return null;
                     },
                   ),
+                  //memilih gender
                   const SizedBox(height: 16.0),
                   DropdownButtonFormField<String>(
                     decoration: const InputDecoration(
@@ -114,6 +128,7 @@ class _RegisterViewState extends State<RegisterView> {
                       );
                     }).toList(),
                   ),
+                  //memasukan tanggal lahir
                   const SizedBox(height: 16.0),
                   Row(
                     children: [
@@ -146,6 +161,7 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                     ],
                   ),
+                  //memasukan password
                   const SizedBox(height: 16.0),
                   TextFormField(
                     decoration: InputDecoration(
@@ -180,6 +196,7 @@ class _RegisterViewState extends State<RegisterView> {
                       return null;
                     },
                   ),
+                  //memasukan repassword
                   const SizedBox(height: 16.0),
                   TextFormField(
                     decoration: InputDecoration(
@@ -221,6 +238,7 @@ class _RegisterViewState extends State<RegisterView> {
                     onPressed: () async {
                       if (formkey.currentState!.validate()) {
                         try {
+                          //melalukan register
                           UserModel? registeredUser =
                               await userCr.createUserWithEmailAndPassword(
                             email!,
@@ -234,6 +252,7 @@ class _RegisterViewState extends State<RegisterView> {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
+                                //apabila register berhasil
                                 return AlertDialog(
                                   title: const Text('Registration Successful'),
                                   content: const Text(
@@ -252,6 +271,7 @@ class _RegisterViewState extends State<RegisterView> {
                               },
                             );
                           }
+                          //memanpilan apabila gagal melakukan register dan email sudah tersedia
                         } catch (e) {
                           if (e
                               .toString()
@@ -275,6 +295,7 @@ class _RegisterViewState extends State<RegisterView> {
                               },
                             );
                           } else {
+                            //memanpilan apabila gagal melakukan register
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {

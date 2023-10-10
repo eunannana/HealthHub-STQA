@@ -5,9 +5,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:healthhub/controller/userdata_controller.dart';
 
+/// Widget Flutter untuk melacak durasi latihan dan menyimpannya ke data pengguna.
 class Exercise extends StatefulWidget {
+  /// Identifier unik pengguna.
   final String userId;
+  /// Tanggal di mana data latihan direkam.
   final String date;
+  /// Fungsi callback untuk menyegarkan data setelah menyimpan durasi latihan.
   final Function refreshData;
   const Exercise({
     Key? key,
@@ -95,6 +99,7 @@ class _ExerciseState extends State<Exercise> {
     super.dispose();
   }
 
+/// Mengambil data pengguna, termasuk durasi latihan, dari database.
   Future<void> fetchData() async {
     // date = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
@@ -117,6 +122,7 @@ class _ExerciseState extends State<Exercise> {
     fetchData();
   }
 
+/// Memformat waktu yang diberikan dalam detik sebagai string dalam format "hh:mm:ss".
   String _formatTime(int time) {
     int hours = (time ~/ 3600) % 60;
     int minutes = (time ~/ 60) % 60;
@@ -127,6 +133,7 @@ class _ExerciseState extends State<Exercise> {
     return '$hoursStr:$minutesStr:$secondsStr';
   }
 
+/// Mengatur ulang timer latihan menjadi nol.
   void _resetTimer() {
     setState(() {
       _isRunning = false;
@@ -134,6 +141,7 @@ class _ExerciseState extends State<Exercise> {
     });
   }
 
+   /// Menyimpan durasi latihan dan data terkait ke dalam database.
   void _saveData() async {
     // String currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
@@ -153,7 +161,7 @@ class _ExerciseState extends State<Exercise> {
       const SnackBar(content: Text('Exercise duration saved')),
     );
   }
-
+/// Memulai timer latihan.
   void _startTimer() {
     setState(() {
       _isRunning = true;
@@ -166,6 +174,7 @@ class _ExerciseState extends State<Exercise> {
     });
   }
 
+ /// Menghentikan timer latihan.
   void _stopTimer() {
     setState(() {
       _isRunning = false;

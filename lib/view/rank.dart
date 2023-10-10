@@ -26,6 +26,7 @@ class _RankPageState extends State<RankPage> {
   String? username;
   List<Map<String, dynamic>> userNamesWithPoints = [];
 
+//menampilkan rank
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,14 +35,15 @@ class _RankPageState extends State<RankPage> {
       ),
       body: Column(
         children: [
+          //menampilkan name
           const SizedBox(height: 10),
           Text(
-              'Name: $username',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+            'Name: $username',
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
+          ),
           const SizedBox(height: 20),
           Expanded(
             child: ListView.builder(
@@ -63,7 +65,7 @@ class _RankPageState extends State<RankPage> {
                   badgeIcon = Icons.emoji_events;
                   badgeColor = Colors.brown;
                 }
-                 final isSameUser = userName == username;
+                final isSameUser = userName == username;
 
                 return Card(
                   shape: isSameUser
@@ -98,7 +100,8 @@ class _RankPageState extends State<RankPage> {
 
   Future<void> fetchRanks() async {
     username = await AuthController().getUserName(widget.userId);
-    userNamesWithPoints = await UserDataController().getAllUserNamesWithPoints();
+    userNamesWithPoints =
+        await UserDataController().getAllUserNamesWithPoints();
     setState(() {});
   }
 
